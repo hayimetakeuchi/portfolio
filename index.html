@@ -1,181 +1,203 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>[Your Name] — Software &amp; Systems Engineer</title>
+  <title>[Your Name] // ORBITAL_SHELL v4.2</title>
   <link rel="preconnect" href="https://googleapis.com">
   <link rel="preconnect" href="https://gstatic.com" crossorigin>
-  <link href="https://googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
   <script src="https://tailwindcss.com"></script>
   <script>
     tailwind.config = {
       theme: {
         extend: {
           fontFamily: {
-            sans: ['Inter', 'sans-serif'],
             mono: ['JetBrains Mono', 'monospace'],
           },
+          colors: {
+            void: '#04060A',
+            shell: '#080C14',
+            cyanTerm: '#38BDF8',
+            amberTerm: '#F59E0B',
+            emeraldTerm: '#10B981',
+          }
         }
       }
     }
   </script>
   <style>
-    .bg-grid {
-      background-size: 40px 40px;
-      background-image: linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-                        linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    body {
+      background-color: #04060A;
+      color: #CBD5E1;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* Subtle CRT / Telemetry Scanline Overlay */
+    .scanlines {
+      background: linear-gradient(
+        to bottom,
+        rgba(255,255,255,0),
+        rgba(255,255,255,0) 50%,
+        rgba(56, 189, 248, 0.025) 50%,
+        rgba(56, 189, 248, 0.025)
+      );
+      background-size: 100% 4px;
+    }
+
+    /* Custom Scrollbar for Terminal Window */
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #04060A;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #1E293B;
+      border-radius: 3px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #38BDF8;
+    }
+
+    .glow-border {
+      box-shadow: 0 0 40px rgba(56, 189, 248, 0.07), inset 0 0 20px rgba(56, 189, 248, 0.02);
     }
   </style>
 </head>
-<body class="bg-[#09090b] text-zinc-200 font-sans antialiased bg-grid relative selection:bg-indigo-500 selection:text-white">
+<body class="min-h-screen flex flex-col justify-between relative overflow-x-hidden selection:bg-cyanTerm selection:text-void">
 
-  <!-- Ambient Top Glow -->
-  <div class="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[350px] bg-indigo-500/15 blur-[120px] rounded-full"></div>
+  <!-- Deep-Space Starfield Canvas -->
+  <canvas id="space-canvas" class="fixed inset-0 z-0 pointer-events-none"></canvas>
+  <div class="fixed inset-0 z-0 pointer-events-none scanlines"></div>
 
-  <!-- Sticky Navbar -->
-  <nav class="sticky top-0 z-50 backdrop-blur-md bg-[#09090b]/80 border-b border-zinc-800/80">
-    <div class="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
-      <a href="#" class="font-mono text-sm font-semibold text-white tracking-tight">
-        <span class="text-indigo-400">&gt;</span> [yourname].dev
-      </a>
-      <div class="flex items-center gap-6 text-sm text-zinc-400">
-        <a href="#projects" class="hover:text-white transition">Projects</a>
-        <a href="#experience" class="hover:text-white transition">Background</a>
-        <a href="#stack" class="hover:text-white transition">Stack</a>
-        <a href="mailto:[your-email@example.com]" class="px-3.5 py-1.5 rounded-md bg-zinc-100 text-zinc-950 font-medium hover:bg-white transition">
-          Contact
-        </a>
+  <!-- Top Orbital Telemetry Bar -->
+  <header class="relative z-10 border-b border-slate-800/90 bg-void/85 backdrop-blur-md px-4 sm:px-8 py-3 text-xs">
+    <div class="max-w-5xl mx-auto flex flex-wrap items-center justify-between gap-3">
+      <div class="flex items-center gap-3">
+        <span class="w-2.5 h-2.5 rounded-full bg-emeraldTerm animate-pulse shadow-[0_0_8px_#10B981]"></span>
+        <span class="text-slate-200 font-semibold tracking-wider">[yourname].dev</span>
+        <span class="hidden sm:inline text-slate-600">|</span>
+        <span class="hidden sm:inline text-cyanTerm">SYS_UPTIME: 7YRS_PROD</span>
+      </div>
+
+      <div class="flex items-center gap-4 text-slate-400">
+        <span id="iss-telemetry" class="text-amberTerm">ISS_LINK: ACQUIRING...</span>
+        <a href="https://github.com[your-github-username]" target="_blank" class="hover:text-cyanTerm transition">[GITHUB]</a>
+        <a href="https://linkedin.com[your-linkedin]" target="_blank" class="hover:text-cyanTerm transition">[LINKEDIN]</a>
       </div>
     </div>
-  </nav>
+  </header>
 
-  <main class="max-w-5xl mx-auto px-6">
-    <!-- Hero Section -->
-    <section class="pt-24 pb-20">
-      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-300 font-mono text-xs mb-6">
-        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-        Open to Engineering Roles
-      </div>
+  <!-- Main Interactive Terminal Container -->
+  <main class="relative z-10 flex-1 max-w-5xl w-full mx-auto px-4 sm:px-8 py-6 sm:py-10 flex flex-col">
+    <div id="terminal-window" onclick="focusInput()" class="flex-1 bg-shell/85 backdrop-blur-md border border-sky-500/25 rounded-lg glow-border flex flex-col overflow-hidden min-h-[72vh]">
       
-      <h1 class="text-4xl sm:text-6xl font-extrabold text-white tracking-tight leading-[1.1] mb-6">
-        [Your Name].<br />
-        <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-sky-400 to-emerald-400">
-          Building resilient systems.
-        </span>
-      </h1>
-      
-      <p class="text-zinc-400 text-lg sm:text-xl leading-relaxed max-w-2xl mb-10">
-        Engineer with <strong class="text-zinc-200 font-medium">7 years of production systems experience</strong>. After years of diagnosing complex outages, optimizing databases, and automating workflows in application support, I now build reliable backend services and developer tools.
-      </p>
-
-      <div class="flex flex-wrap items-center gap-4">
-        <a href="#projects" class="px-6 py-3 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-sm transition shadow-lg shadow-indigo-500/20">
-          View My Work
-        </a>
-        <a href="https://github.com[your-github-username]" target="_blank" class="px-6 py-3 rounded-lg bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 text-zinc-200 font-semibold text-sm transition">
-          GitHub Profile
-        </a>
-        <a href="https://linkedin.com[your-linkedin]" target="_blank" class="px-6 py-3 rounded-lg bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 text-zinc-200 font-semibold text-sm transition">
-          LinkedIn
-        </a>
-      </div>
-    </section>
-
-    <!-- Featured Projects -->
-    <section id="projects" class="py-20 border-t border-zinc-800/80">
-      <div class="flex items-end justify-between mb-10">
-        <div>
-          <p class="font-mono text-xs text-indigo-400 uppercase tracking-wider mb-2">Portfolio</p>
-          <h2 class="text-3xl font-bold text-white tracking-tight">Featured Engineering Projects</h2>
+      <!-- Window Title Bar -->
+      <div class="bg-slate-900/90 border-b border-slate-800 px-4 py-2.5 flex items-center justify-between text-xs text-slate-400 select-none">
+        <div class="flex items-center gap-2">
+          <span class="w-3 h-3 rounded-full bg-rose-500/80"></span>
+          <span class="w-3 h-3 rounded-full bg-amber-400/80"></span>
+          <span class="w-3 h-3 rounded-full bg-emerald-500/80"></span>
+          <span class="ml-2 text-slate-300 font-medium">guest@[yourname]-node: ~ (bash)</span>
         </div>
+        <span class="hidden sm:inline text-slate-500">TYPE 'help' OR CLICK A COMMAND BELOW</span>
       </div>
 
-      <div class="grid md:grid-cols-2 gap-6">
-        <!-- Project Card 1 -->
-        <article class="group rounded-2xl bg-zinc-900/50 border border-zinc-800/90 p-7 hover:border-indigo-500/50 hover:bg-zinc-900/90 transition duration-300 flex flex-col justify-between">
-          <div>
-            <div class="flex items-center justify-between mb-4">
-              <span class="font-mono text-xs px-2.5 py-1 rounded bg-indigo-500/10 text-indigo-300 border border-indigo-500/20">
-                Systems &amp; Automation
-              </span>
-              <a href="https://github.com[your-github-username]" target="_blank" class="text-xs font-mono text-zinc-400 hover:text-white transition">
-                Source Code &rarr;
-              </a>
-            </div>
-            <h3 class="text-xl font-bold text-white group-hover:text-indigo-300 transition mb-3">
-              [Project 1: e.g., Automated Log &amp; Incident Triage CLI]
-            </h3>
-            <p class="text-zinc-400 text-sm leading-relaxed mb-6">
-              A command-line tool that parses multi-gigabyte application logs, detects recurring error spikes, and surfaces root-cause patterns in seconds instead of manual grep searches.
-            </p>
-          </div>
-          <div class="flex flex-wrap gap-2 pt-4 border-t border-zinc-800/80 font-mono text-xs text-zinc-400">
-            <span class="px-2 py-1 rounded bg-zinc-950 border border-zinc-800">Python</span>
-            <span class="px-2 py-1 rounded bg-zinc-950 border border-zinc-800">SQLite</span>
-            <span class="px-2 py-1 rounded bg-zinc-950 border border-zinc-800">Docker</span>
-          </div>
-        </article>
+      <!-- Terminal Scrollable Output Area -->
+      <div id="output" class="flex-1 p-5 sm:p-7 overflow-y-auto space-y-5 text-xs sm:text-sm leading-relaxed">
+        <!-- Boot Sequence & ASCII Banner -->
+        <div class="text-cyanTerm font-bold text-[10px] sm:text-xs leading-tight overflow-x-auto select-none">
+<pre>
+  ___  ____  ____ ___ _____  _    _       ___  ____  
+ / _ \|  _ \| __ )_ _|_   _|/ \  | |     / _ \/ ___| 
 
-        <!-- Project Card 2 -->
-        <article class="group rounded-2xl bg-zinc-900/50 border border-zinc-800/90 p-7 hover:border-indigo-500/50 hover:bg-zinc-900/90 transition duration-300 flex flex-col justify-between">
-          <div>
-            <div class="flex items-center justify-between mb-4">
-              <span class="font-mono text-xs px-2.5 py-1 rounded bg-emerald-500/10 text-emerald-300 border border-emerald-500/20">
-                Backend API
-              </span>
-              <a href="https://github.com[your-github-username]" target="_blank" class="text-xs font-mono text-zinc-400 hover:text-white transition">
-                Source Code &rarr;
-              </a>
-            </div>
-            <h3 class="text-xl font-bold text-white group-hover:text-indigo-300 transition mb-3">
-              [Project 2: e.g., Service Health &amp; Uptime Monitor]
-            </h3>
-            <p class="text-zinc-400 text-sm leading-relaxed mb-6">
-              A lightweight REST API and dashboard that polls internal endpoints, tracks latency percentiles, and triggers webhook alerts when SLA thresholds degrade.
-            </p>
-          </div>
-          <div class="flex flex-wrap gap-2 pt-4 border-t border-zinc-800/80 font-mono text-xs text-zinc-400">
-            <span class="px-2 py-1 rounded bg-zinc-950 border border-zinc-800">FastAPI</span>
-            <span class="px-2 py-1 rounded bg-zinc-950 border border-zinc-800">PostgreSQL</span>
-            <span class="px-2 py-1 rounded bg-zinc-950 border border-zinc-800">Linux</span>
-          </div>
-        </article>
-      </div>
-    </section>
+| | | | |_) |  _ \| |  | | / _ \ | |    | | | \___ \ 
+| |_| |  _ <| |_) | |  | |/ ___ \| |___ | |_| |___) |
+ \___/|_| \_\____/___| |_/_/   \_\_____| \___/|____/ 
+</pre>
+        </div>
 
-    <!-- Production Edge / Experience -->
-    <section id="experience" class="py-20 border-t border-zinc-800/80">
-      <p class="font-mono text-xs text-indigo-400 uppercase tracking-wider mb-2">Why Hire Me</p>
-      <h2 class="text-3xl font-bold text-white tracking-tight mb-10">The Production Support Advantage</h2>
-      
-      <div class="grid sm:grid-cols-3 gap-6">
-        <div class="p-6 rounded-2xl bg-zinc-900/40 border border-zinc-800/80">
-          <div class="text-indigo-400 font-mono text-sm mb-3">01 // Debugging</div>
-          <h3 class="text-lg font-semibold text-white mb-2">Battle-Tested RCA</h3>
-          <p class="text-sm text-zinc-400 leading-relaxed">
-            7 years tracing failures across APIs, databases, and distributed logs means I write defensive code with observability built in from day one.
+        <div class="space-y-1.5 border-l-2 border-cyanTerm/50 pl-4">
+          <p class="text-white font-semibold text-sm sm:text-base">Welcome to [Your Name]'s Interactive Engineering Console.</p>
+          <p class="text-slate-400">
+            Application Support Analyst (<span class="text-amberTerm">7 Years Production Experience</span>) transitioning into <span class="text-cyanTerm">Software &amp; Systems Engineering</span>.
+          </p>
+          <p class="text-slate-500 text-xs pt-1">
+            Type a command and press <span class="text-slate-300 border border-slate-700 px-1.5 py-0.5 rounded">Enter</span>, or click any quick-command chip below.
           </p>
         </div>
-        <div class="p-6 rounded-2xl bg-zinc-900/40 border border-zinc-800/80">
-          <div class="text-sky-400 font-mono text-sm mb-3">02 // Data &amp; SQL</div>
-          <h3 class="text-lg font-semibold text-white mb-2">Database Fluency</h3>
-          <p class="text-sm text-zinc-400 leading-relaxed">
-            Experienced diagnosing slow queries, deadlocks, and data integrity issues in high-volume production relational databases.
-          </p>
-        </div>
-        <div class="p-6 rounded-2xl bg-zinc-900/40 border border-zinc-800/80">
-          <div class="text-emerald-400 font-mono text-sm mb-3">03 // Ownership</div>
-          <h3 class="text-lg font-semibold text-white mb-2">End-to-End Mindset</h3>
-          <p class="text-sm text-zinc-400 leading-relaxed">
-            I understand how code behaves after deployment—bridging the gap between software engineering, DevOps, and real end users.
-          </p>
+
+        <!-- Default Initial 'about' Output so recruiters immediately see value -->
+        <div class="pt-2">
+          <p class="text-slate-500 mb-2"><span class="text-emeraldTerm">guest@orbital</span>:<span class="text-cyanTerm">~</span>$ whoami</p>
+          <div class="bg-void/60 border border-slate-800/90 p-4 rounded space-y-2 text-slate-300">
+            <p><span class="text-cyanTerm">ROLE_TARGET:</span> Backend / Site Reliability (SRE) / Systems Engineer</p>
+            <p><span class="text-cyanTerm">BACKGROUND:</span>  7 years diagnosing P1 production incidents, tracing distributed APIs, tuning SQL queries, and automating operational workflows.</p>
+            <p><span class="text-cyanTerm">MISSION:</span>     Bringing battle-tested production intuition to building resilient, observable software systems.</p>
+          </div>
         </div>
       </div>
-    </section>
 
-    <!-- Tech Stack -->
-    <section id="stack" class="py-20 border-t border-zinc-800/80">
-      <p class="font-mono text-xs text-indigo-400 uppercase tracking-wider mb-2">Toolkit</p>
-      <h2 class="text-3xl font-bold text-white tracking-tight mb-8">Technologies &amp; Tools</h2>
-      <div class="flex flex-wrap gap-3 font-mono text-sm">
+      <!-- Clickable Quick-Command Bar (Recruiter Friendly) -->
+      <div class="bg-slate-900/70 border-t border-slate-800/90 px-4 py-2.5 flex flex-wrap items-center gap-2 text-xs">
+        <span class="text-slate-500 mr-1">QUICK_EXEC:</span>
+        <button type="button" onclick="executeCommand('about')" class="px-2.5 py-1 rounded bg-void border border-slate-700 hover:border-cyanTerm text-cyanTerm transition">about</button>
+        <button type="button" onclick="executeCommand('projects')" class="px-2.5 py-1 rounded bg-void border border-slate-700 hover:border-cyanTerm text-cyanTerm transition">projects</button>
+        <button type="button" onclick="executeCommand('stack')" class="px-2.5 py-1 rounded bg-void border border-slate-700 hover:border-cyanTerm text-cyanTerm transition">stack</button>
+        <button type="button" onclick="executeCommand('edge')" class="px-2.5 py-1 rounded bg-void border border-slate-700 hover:border-amberTerm text-amberTerm transition">prod_edge</button>
+        <button type="button" onclick="executeCommand('iss')" class="px-2.5 py-1 rounded bg-void border border-slate-700 hover:border-amberTerm text-amberTerm transition">track_iss</button>
+        <button type="button" onclick="executeCommand('contact')" class="px-2.5 py-1 rounded bg-void border border-slate-700 hover:border-emeraldTerm text-emeraldTerm transition">contact</button>
+        <button type="button" onclick="executeCommand('clear')" class="px-2.5 py-1 rounded bg-void border border-slate-800 hover:border-slate-500 text-slate-400 transition ml-auto">clear</button>
+      </div>
+
+      <!-- Live Command Input Prompt -->
+      <form id="terminal-form" class="bg-void/95 border-t border-slate-800 px-4 sm:px-6 py-3.5 flex items-center gap-2 text-xs sm:text-sm">
+        <span class="text-emeraldTerm font-semibold shrink-0">guest@orbital</span>
+        <span class="text-slate-500 shrink-0">:</span>
+        <span class="text-cyanTerm shrink-0">~</span>
+        <span class="text-slate-400 shrink-0">$</span>
+        <input
+          id="cmd-input"
+          type="text"
+          autocomplete="off"
+          spellcheck="false"
+          placeholder="type 'help' or click a command above..."
+          class="w-full bg-transparent text-white focus:outline-none placeholder:text-slate-600 caret-cyanTerm"
+        />
+      </form>
+    </div>
+  </main>
+
+  <script>
+    const outputEl = document.getElementById('output');
+    const formEl = document.getElementById('terminal-form');
+    const inputEl = document.getElementById('cmd-input');
+    const issBannerEl = document.getElementById('iss-telemetry');
+
+    let commandHistory = [];
+    let historyIndex = -1;
+    let issData = { lat: '28.57', lon: '-80.65', alt: '408', vel: '27580' };
+
+    // Fetch Live International Space Station Telemetry
+    async function updateISSTelemetry() {
+      try {
+        const res = await fetch('https://wheretheiss.at');
+        const data = await res.json();
+        issData = {
+          lat: data.latitude.toFixed(3),
+          lon: data.longitude.toFixed(3),
+          alt: Math.round(data.altitude),
+          vel: Math.round(data.velocity)
+        };
+        issBannerEl.textContent = `ISS_POS: ${issData.lat}°, ${issData.lon}° [${issData.alt}KM]`;
+      } catch (err) {
+        issBannerEl.textContent = `ISS_LINK: ORBITAL_STANDBY`;
+      }
+    }
+    updateISSTelemetry();
+
+    // Command Responses Dictionary
+    const commands = {
+      help: () => `
+        <div class="grid sm:grid-cols-2 gap-2 text-slate-300 bg-void/60 border border-slate-800 p-4 rounded">
